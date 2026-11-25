@@ -1,0 +1,564 @@
+{
+  "_meta": {
+    "locale": "zh-CN",
+    "language_name": "简体中文",
+    "upstream_repo": "https://github.com/ChaoticSi1ence/SlimBrave-Neo",
+    "schema_version": 1,
+    "notes": "Single source of truth (SSOT) for SlimBrave Neo Chinese localization across Windows (PS1), Linux (Python), and macOS (Python). Policies are keyed by stable Chromium/Brave policy key (or Key:NormalizedValue for multi-row keys, where True=1, False=0)."
+  },
+  "categories": {
+    "Telemetry & Reporting": "遥测与报告",
+    "Privacy & Security": "隐私与安全",
+    "Site Permissions": "网站权限",
+    "Access Controls": "访问控制",
+    "Brave Features": "Brave 内置功能",
+    "Shields & Content Protection": "盾牌与内容保护",
+    "Performance & Bloat": "性能与精简"
+  },
+  "choices": {
+    "Not managed": "不管理",
+    "Allow": "允许",
+    "Ask": "询问",
+    "Block": "阻止"
+  },
+  "dns_modes": {
+    "unmanaged": "不管理",
+    "automatic": "自动 (auto)",
+    "off": "关闭 (off)",
+    "secure": "安全 (secure)",
+    "custom": "自定义 (custom)"
+  },
+  "presets": {
+    "Maximum Privacy Preset": {
+      "name": "极致隐私预设",
+      "blurb": "启用几乎所有隐私强化策略，可能会牺牲部分日常便利性。"
+    },
+    "Balanced Privacy Preset": {
+      "name": "均衡隐私预设",
+      "blurb": "强力隐私保护，同时保留大多数人需要的日常便利功能。"
+    },
+    "Performance Focused Preset": {
+      "name": "性能精简预设",
+      "blurb": "聚焦提速与去臃肿，不采用极端隐私限制。"
+    },
+    "Developer Preset": {
+      "name": "开发者预设",
+      "blurb": "关闭遥测与冗余组件，保留开发者工具和网络调试能力。"
+    },
+    "Strict Parental Controls Preset": {
+      "name": "严格家长控制预设",
+      "blurb": "高度锁定：强制安全过滤、禁用无痕模式与所有扩展。"
+    },
+    "Brave Origin Preset": {
+      "name": "Brave Origin 预设",
+      "blurb": "复刻 Brave Origin 官方精简版所强制执行的策略组合。"
+    }
+  },
+  "policies": {
+    "MetricsReportingEnabled": {
+      "name": "禁用指标与崩溃报告",
+      "desc": "阻止 Brave 上传崩溃报告：锁定关闭“自动发送诊断报告”，隐藏崩溃后的上传提示，并屏蔽 brave://crashes 上的“立即发送”。Beta 与 Nightly 默认开启；Release 首次欢迎页也会默认勾选。P3A 与使用统计 ping 由单独条目控制。"
+    },
+    "UrlKeyedAnonymizedDataCollectionEnabled": {
+      "name": "禁用 URL 匿名数据收集",
+      "desc": "锁定关闭“改进搜索和浏览体验”（基于 URL 的匿名数据收集）。Brave 默认已关闭此项；其唯一开关位于隐藏的隐私指南（brave://settings/privacy/guide），设置任意策略后该入口会隐藏。此项也会覆盖此前在其中开启的授权。"
+    },
+    "AccessibilityImageLabelsEnabled": {
+      "name": "禁用 Google 图像描述",
+      "desc": "Brave 默认已关闭 Google 图像描述且不再提供开启入口。但旧版配置中若曾同意过，运行屏幕阅读器时仍会将无标签图片发送给 Google；启用此策略可彻底关闭并锁定。"
+    },
+    "BraveP3AEnabled": {
+      "name": "禁用 P3A 产品分析",
+      "desc": "禁用 P3A（隐私保护产品分析），即 Brave 的匿名产品使用遥测功能。"
+    },
+    "BraveStatsPingEnabled": {
+      "name": "禁用每日活跃统计 Ping",
+      "desc": "停止用于统计 Brave 活跃用户数的每日使用 Ping，以及其中附带的搜索引擎使用计数和推广码检查。若未同时禁用 P3A 分析，P3A 仍会单独发送一份搜索计数。"
+    },
+    "ChromeVariations:1": {
+      "name": "限制云端实验仅限关键修复",
+      "desc": "将 Brave 远程配置种子（Griffin）限制为仅接收关键修复实验，这会同时关闭仅靠远程下发启用的特性：WebGL/WebGPU 指纹伪装、图片元数据剥离（两者可在 brave://flags 手动恢复）以及 Google 登录修复。重启后生效。与“完全禁用云端实验”互斥。"
+    },
+    "ChromeVariations:2": {
+      "name": "完全禁用云端实验 / Griffin",
+      "desc": "拒绝所有 Griffin 云端实验（含关键修复），仅靠远程种子启用的特性将保持关闭：WebGL/WebGPU 指纹伪装、图片元数据剥离及 Google 登录修复。种子文件本身仍会下载。重启后生效。与“限制云端实验仅限关键修复”互斥。"
+    },
+    "SpellCheckServiceEnabled": {
+      "name": "禁用增强型在线拼写检查",
+      "desc": "锁定关闭会将表单输入发送到 Google 的增强型拼写检查。Brave 默认已关闭且无界面开关；本地离线拼写检查仍可正常使用。与“禁用拼写检查”互斥（后者会完全关闭拼写检查并使本项无效）。"
+    },
+    "SafeBrowsingProtectionLevel:0": {
+      "name": "禁用安全浏览（降低安全性）",
+      "desc": "完全关闭安全浏览。Brave 会通过自有服务器代理查询，Google 原本也无法得知请求来源；关闭它几乎不增加隐私，却会失去钓鱼与恶意软件警告页面。所有预设均不包含此项。与“锁定开启安全浏览”互斥。"
+    },
+    "AutofillAddressEnabled": {
+      "name": "禁用地址自动填充",
+      "desc": "阻止 Brave 在网页表单中保存和自动填充地址及其他联系信息。Chromium 已弃用此策略（brave://policy 会标注为 Deprecated），但 Brave 目前仍会执行；其替代策略 AutofillSettings 尚未在 Brave 中生效。"
+    },
+    "AutofillCreditCardEnabled": {
+      "name": "禁用信用卡自动填充",
+      "desc": "阻止 Brave 在网页表单中保存和自动填充信用卡号。Chromium 已弃用此策略（brave://policy 会标注为 Deprecated），但 Brave 目前仍会执行；其替代策略 AutofillSettings 尚未在 Brave 中生效。"
+    },
+    "PasswordManagerEnabled": {
+      "name": "禁用内置密码管理器",
+      "desc": "停止内置密码管理器提示保存或生成密码。此前已保存的密码仍可自动填充。如果你使用独立的第三方密码管理器，建议开启此项。"
+    },
+    "PasswordLeakDetectionEnabled": {
+      "name": "禁用密码泄露检测",
+      "desc": "锁定关闭登录网站或编辑已保存密码时触发的在线泄露库比对检查。Brave 默认已关闭，此策略用于锁定保持关闭。"
+    },
+    "BrowserSignin": {
+      "name": "禁用浏览器 Google 登录",
+      "desc": "Brave 本身不含 Google 浏览器账号登录；此策略用于锁定关闭“允许扩展使用 Google 登录”（brave://settings/extensions），与 Brave 默认一致。扩展仍可通过 chrome.identity 打开 Google 登录弹窗。不影响 Brave 账号。重启后生效。"
+    },
+    "BraveGlobalPrivacyControlEnabled": {
+      "name": "启用全球隐私控制 (GPC)",
+      "desc": "Brave 默认在每次请求中发送 GPC 信号（要求网站不要出售或共享你的数据）且无手动开关；此策略可确保即使在“仅拦截广告模式”（仅英文界面提供）下仍保持开启，且在关闭盾牌的网站上依然生效。"
+    },
+    "BraveDeAmpEnabled": {
+      "name": "启用 De-AMP（跳过 AMP 页面）",
+      "desc": "保持 De-AMP 开启：自动跳过 Google AMP 代理页并直达发布者原网页。Brave 默认开启；此策略锁定设置开关，并防止“仅拦截广告模式”将其关闭。"
+    },
+    "BraveDebouncingEnabled": {
+      "name": "启用防跳链重定向 (Debouncing)",
+      "desc": "保持防跳链开启：自动跳过已知的追踪中转跳转，直接访问最终目标 URL。Brave 默认开启；此策略锁定设置开关，并防止“仅拦截广告模式”将其关闭。"
+    },
+    "BraveTrackingQueryParametersFilteringEnabled": {
+      "name": "剥离网址追踪参数",
+      "desc": "Brave 默认自动移除 URL 中的已知追踪参数（如 fbclid、gclid、mc_eid 等）且无手动开关；此策略可确保即使开启“仅拦截广告模式”也保持剥离。需保持盾牌开启。"
+    },
+    "BraveReduceLanguageEnabled": {
+      "name": "减少语言指纹暴露",
+      "desc": "Brave 默认开启，此策略用于锁定开关。仅在 Accept-Language 请求头中向网站发送你的首选语言，并在 Windows、macOS 及部分 Linux 发行版上仅暴露标准字体列表。需开启盾牌与指纹保护。"
+    },
+    "WebRtcIPHandling": {
+      "name": "防止 WebRTC 泄露真实 IP",
+      "desc": "将 WebRTC 限制为仅使用代理连接，防止音视频通话在开启 VPN 或代理时暴露你的真实 IP 地址。"
+    },
+    "QuicAllowed": {
+      "name": "禁用 QUIC (HTTP/3) 协议",
+      "desc": "禁用网页请求的 QUIC（HTTP/3），强制回退至 TCP（HTTP/2 或 HTTP/1.1）。适用于无法审计 QUIC 流量的防火墙或过滤环境；可能略微降低部分 Google 站点加载速度。WebRTC 通话和 WebTransport 仍使用 UDP。"
+    },
+    "NetworkPredictionOptions": {
+      "name": "禁用网络预加载（预取）",
+      "desc": "阻止 Brave 根据网站的推测规则或预渲染提示提前加载网页，并停止预连接搜索引擎。Brave 默认已采用此行为；此策略用于锁定，防止被同步或扩展改回。"
+    },
+    "BlockThirdPartyCookies": {
+      "name": "阻止第三方 Cookie",
+      "desc": "Brave 默认阻止第三方 Cookie；此策略将其锁定，防止在盾牌全局设置中切回“允许所有 Cookie”或被扩展、同步及“仅拦截广告模式”关闭。针对单个网站的盾牌例外（如修复嵌入登录）依然有效。"
+    },
+    "PaymentMethodQueryEnabled": {
+      "name": "阻止网站探测支付方式",
+      "desc": "防止网站探知你是否保存了支付方式：使 canMakePayment() 恒返回 yes、hasEnrolledInstrument() 恒返回 no，从而不泄露任何真实状态。"
+    },
+    "RemoteDebuggingAllowed": {
+      "name": "禁止远程调试接口",
+      "desc": "屏蔽远程调试端口与管道，防止自动化工具操控浏览器并读取你的 Cookie 与登录会话。“禁用开发者工具”不包含此项。会导致 Puppeteer、Playwright 及 brave://inspect 远程调试开关不可用。无需重启即生效。"
+    },
+    "BasicAuthOverHttpEnabled": {
+      "name": "基础认证 (Basic Auth) 强制使用 HTTPS",
+      "desc": "拒绝在明文 HTTP 连接上使用 HTTP Basic 认证，确保账号密码不会以明文传输。会导致仅支持 HTTP 的老旧路由器、打印机后台及明文 HTTP 代理认证无法登录。"
+    },
+    "LocalNetworkAccessBlockedForUrls": {
+      "name": "阻止公网访问本地局域网",
+      "desc": "禁止公网网站访问你局域网中的设备（路由器、NAS、打印机、智能家居中枢）或本机服务，且不弹窗、不允许单站例外（默认情况下 Brave 会询问）。直接从局域网地址打开的页面不受影响。会影响需配对本地设备或助手程序的网页应用。"
+    },
+    "XSLTEnabled": {
+      "name": "禁用 XSLT 引擎",
+      "desc": "关闭旧版 XML 转换引擎 XSLT（XSLTProcessor 与 xml-stylesheet），这是 Chromium 正在移除的攻击面；即使网站主动申请启用也会保持关闭。依赖 XSLT 样式的 XML（如部分 RSS 源和站点地图）将显示为无样式。重启后完全生效。"
+    },
+    "DefaultJavaScriptOptimizerSetting": {
+      "name": "禁用 JavaScript JIT 优化（安全加固）",
+      "desc": "在网页上关闭 V8 优化编译器（TurboFan、Maglev），Brave 表示这能显著提高抗攻击能力。网站与 WebAssembly 仍可运行，但重脚本页面和 Web 应用会变慢，且不支持单站例外。对修改后新打开的标签页生效。"
+    },
+    "ExternalProtocolDialogShowAlwaysOpenCheckbox": {
+      "name": "移除外部应用启动提示的“始终允许”",
+      "desc": "从网站唤起外部应用前的确认弹窗中移除“始终允许”复选框，使每次跳转（如 mailto:、Zoom、Teams、Steam、ms-* 链接）都需手动点击确认。此前已设为始终打开的应用不受影响。"
+    },
+    "SitePerProcess": {
+      "name": "强制为每个网站启用站点隔离",
+      "desc": "确保每个网站运行在独立进程中（Brave 桌面版默认如此），并阻止通过 brave://flags#site-isolation-trial-opt-out 或 --disable-site-isolation-trials 将其关闭。重启后生效。"
+    },
+    "OriginKeyedProcessesEnabled": {
+      "name": "为不同子域名启用独立进程隔离",
+      "desc": "将每个源（例如 mail.example.com 与 docs.example.com）隔离在各自进程中，而非按主域名共享，以更强力地防御子域名间的 Spectre 类侧信道泄露。会增加进程数与内存占用。重启后生效，但可被 brave://flags 覆盖。"
+    },
+    "DynamicCodeSettings": {
+      "name": "阻止浏览器主进程生成动态代码 (ACG)",
+      "desc": "禁止 Brave 主进程创建或修改可执行内存（任意代码防护 ACG），可有效阻断进程注入的 Shellcode 与代码挂钩。部分向浏览器注入 DLL 的杀毒软件、打印机驱动或输入法可能异常或导致崩溃，如遇问题请取消勾选。"
+    },
+    "DefaultNotificationsSetting": {
+      "name": "网页桌面通知",
+      "desc": "设置网站桌面通知的默认策略。“阻止”会禁止所有网站请求或弹出通知；“允许”则全部放行，二者均会覆盖你的单站设置。“不管理”保留 Brave 默认询问（托管策略下的“询问”会导致任何通知都无法送达）。"
+    },
+    "DefaultGeolocationSetting": {
+      "name": "地理位置权限",
+      "desc": "设置网站读取物理位置的默认策略。“阻止”会直接隐藏提示（地图与外卖网站需手动输入地址）；“询问”每次都会弹窗且不记住选择。任意非“不管理”选项都会覆盖单站设置。"
+    },
+    "DefaultSensorsSetting": {
+      "name": "运动与方向传感器",
+      "desc": "运动与方向传感器常被用于设备指纹追踪，Brave 默认已阻止。“阻止”会锁定该行为，设置页与已有单站例外都无法放行；选择“询问”或“允许”则会放宽默认保护。"
+    },
+    "DefaultWebUsbGuardSetting": {
+      "name": "WebUSB 设备访问",
+      "desc": "设置网站访问 USB 设备的默认策略。“阻止”会移除提示，导致网页版硬件钱包（Ledger、Trezor）和在线固件刷写工具不可用；“询问”保留弹窗。Chromium 此项不提供“允许”。"
+    },
+    "DefaultSerialGuardSetting": {
+      "name": "Web Serial 串口访问",
+      "desc": "设置网站打开串口的默认策略。“阻止”会移除提示，导致网页端单片机烧录与硬件调试工具不可用；“询问”保留弹窗。Chromium 此项不提供“允许”。"
+    },
+    "DefaultWebHidGuardSetting": {
+      "name": "WebHID 人机接口设备访问",
+      "desc": "设置网站访问 HID 设备的默认策略。“阻止”会移除提示，断开 Brave 钱包对 Ledger 硬件钱包的连接，并可能影响依赖 WebHID（非 WebAuthn）的安全密钥与手柄配置工具。Chromium 此项不提供“允许”。"
+    },
+    "DefaultLocalFontsSetting": {
+      "name": "本地字体枚举权限",
+      "desc": "设置网站查询本机已安装字体列表的默认策略——这是盾牌字体保护未能覆盖的强指纹特征。除在线设计工具外，“阻止”很少影响正常浏览。Chromium 此项不提供“允许”。"
+    },
+    "DefaultWindowManagementSetting": {
+      "name": "多屏幕窗口管理权限",
+      "desc": "设置网站读取多显示器布局及在指定屏幕放置窗口的默认策略。“阻止”会影响部分网页应用的全屏演示模式。Chromium 此项不提供“允许”。"
+    },
+    "DefaultClipboardSetting": {
+      "name": "剪贴板读取权限",
+      "desc": "设置网站在你未执行粘贴时主动读取剪贴板的默认策略。“阻止”会移除提示并使网页内置“粘贴”按钮失效；“询问”保留弹窗。二者均覆盖既有单站允许。Ctrl+V 与复制按钮仍正常。Chromium 此项不提供“允许”。"
+    },
+    "AudioCaptureAllowed": {
+      "name": "全局禁止麦克风访问",
+      "desc": "禁止所有网站和扩展使用麦克风或任何音频输入设备且不弹窗，已设置的单站“允许”也会失效。会导致网页会议（Meet、Zoom、Teams、Discord、Brave Talk）、语音消息和语音听写不可用。"
+    },
+    "VideoCaptureAllowed": {
+      "name": "全局禁止摄像头访问",
+      "desc": "禁止所有网站和扩展使用摄像头或任何视频输入设备且不弹窗，已设置的单站“允许”也会失效。会导致网页视频通话、摄像头人脸核验及网页二维码扫描不可用。"
+    },
+    "ForceGoogleSafeSearch": {
+      "name": "强制开启 Google 安全搜索",
+      "desc": "为所有 Google 搜索强制启用安全搜索过滤，主要用于家长控制场景。"
+    },
+    "ForceYouTubeRestrict": {
+      "name": "强制开启 YouTube 严格受限模式",
+      "desc": "在 youtube.com 及其国家域名（含其他网站嵌入的视频）上强制开启严格受限模式，用户无法关闭。大量视频将不可播放且评论区会被隐藏。通过 youtube-nocookie.com 嵌入的视频不受限制。"
+    },
+    "SafeBrowsingProtectionLevel:1": {
+      "name": "锁定开启安全浏览（标准保护）",
+      "desc": "将安全浏览锁定为“标准保护”，禁止在 brave://settings/security 中切为“无保护”。查询照常经由 Brave 代理。与“禁用安全浏览”互斥。"
+    },
+    "DisableSafeBrowsingProceedAnyway": {
+      "name": "禁止绕过安全浏览警告",
+      "desc": "移除恶意软件与钓鱼警告页中的“仍然访问”选项，被标记的网站（含误报）将完全无法打开。不影响证书警告或下载警告。若安全浏览已关闭则本项无效，可配合“锁定开启安全浏览”使用。"
+    },
+    "SSLErrorOverrideAllowed": {
+      "name": "禁止绕过 HTTPS 证书警告",
+      "desc": "从证书错误页移除“继续前往”链接及键盘暗码绕过，证书无效、过期或自签名的站点将完全无法打开。会导致使用自签名证书的路由器、NAS、打印机后台及本地开发服务器无法访问。"
+    },
+    "BrowserGuestModeEnabled": {
+      "name": "禁用访客模式",
+      "desc": "移除不保存历史且不加载个人配置扩展的访客浏览窗口。“禁用无痕模式”不会移除访客模式。托管策略在访客窗口中同样生效。"
+    },
+    "AllowDeletingBrowserHistory": {
+      "name": "禁止删除浏览与下载历史",
+      "desc": "阻止在历史记录、下载记录或清除浏览数据中删除历史，退出时清除功能也会保留历史。但 brave://settings/privacy 中的“本地历史保留期限”仍可设为最短一天自动过期，SlimBrave 无法锁定该项。"
+    },
+    "ExtensionInstallBlocklist": {
+      "name": "禁止安装并停用全部扩展",
+      "desc": "禁止安装任何新扩展，并停用所有已安装扩展。适合锁定终端或家长控制场景——防止通过代理/VPN 扩展绕过 DNS 过滤。"
+    },
+    "BlockExternalExtensions": {
+      "name": "阻止外部静默侧载扩展",
+      "desc": "阻止其他程序通过 Windows 注册表或外部落盘文件静默注入扩展（捆绑软件常用手段），并在下次启动时移除已通过该途径添加的扩展（即使你曾同意）。你自己主动安装的扩展不受影响。"
+    },
+    "ExtensionInstallTypeBlocklist": {
+      "name": "阻止命令行加载扩展 (--load-extension)",
+      "desc": "忽略通过 --load-extension 参数传入的扩展（恶意软件常篡改快捷方式借此植入扩展）。Google Chrome 默认忽略该参数，而 Brave 默认允许除非启用此策略。--disable-extensions-except 仍可加载。会影响依赖该参数的快捷方式和测试工具。需重启生效。"
+    },
+    "IncognitoModeAvailability:1": {
+      "name": "禁用无痕模式",
+      "desc": "彻底移除隐私浏览功能，无法再打开无痕窗口。与“强制全程无痕模式”互斥。"
+    },
+    "IncognitoModeAvailability:2": {
+      "name": "强制全程无痕模式",
+      "desc": "所有窗口均以无痕模式打开：不保存历史，登录态和多数扩展不会持久化。Tor 窗口、Leo 与 Brave Rewards 也会随之消失，Brave 钱包除非允许在隐私窗口运行否则同样停用。与“禁用无痕模式”互斥。"
+    },
+    "BraveRewardsDisabled": {
+      "name": "禁用 Brave Rewards（奖励与广告）",
+      "desc": "移除 Brave Rewards 并关闭 Brave 广告服务，不再显示新标签页赞助壁纸或通知广告。Brave Search 搜索结果广告不受影响；除非同时启用限制/禁用云端实验，后台仍会匿名拉取广告加密密钥。"
+    },
+    "BraveWalletDisabled": {
+      "name": "禁用 Brave 钱包",
+      "desc": "禁用内置加密货币钱包并隐藏其全部界面入口。"
+    },
+    "BraveVPNDisabled": {
+      "name": "禁用 Brave VPN（Linux 版无效）",
+      "desc": "移除 Brave VPN 功能及其推广提示。Linux 版本身不包含 VPN，因此该策略在 Linux 上无效果。"
+    },
+    "BraveAIChatEnabled": {
+      "name": "禁用 Brave AI 聊天 (Leo)",
+      "desc": "禁用内置 AI 助手 Leo，并将其从侧边栏和地址栏移除。Brave 仍会下载 Leo 的 WebMCP 工具脚本组件，但在 Leo 关闭期间不会被调用。"
+    },
+    "BraveLocalAIEnabled": {
+      "name": "禁用本地 AI 模型（Brave 1.94+，正式版默认关闭）",
+      "desc": "阻止 Brave 下载和运行端侧 AI 模型，并禁止对浏览历史建立 AI 索引；仅禁用 Leo 无法覆盖此项。Release 默认关闭（Nightly/Beta 默认开启），此策略可防止未来被自动或误开启。重启后生效。"
+    },
+    "BraveShieldsDisabledForUrls": {
+      "name": "全局禁用 Brave 盾牌（仅限测试/信息亭）",
+      "desc": "仅限测试或信息亭场景。对所有网站关闭盾牌：停止广告与追踪拦截，“盾牌与内容保护”下的条目、剥离追踪参数和减少语言指纹都将失效。De-AMP、防跳链、GPC 与第三方 Cookie 阻止仍有效。与“强制所有网站开启盾牌”互斥。"
+    },
+    "BraveShieldsEnabledForUrls": {
+      "name": "强制所有网站开启 Brave 盾牌",
+      "desc": "为所有网站锁定开启盾牌：单站开关不再能关闭广告、追踪器或指纹保护，但将其切为关闭时仍会放行该网站的第三方 Cookie 和存储。与“全局禁用 Brave 盾牌”互斥。"
+    },
+    "BraveNewsDisabled": {
+      "name": "禁用 Brave 新闻",
+      "desc": "从新标签页移除 Brave 新闻资讯流。若配置在首次运行时曾启用过新闻，侧边栏可能仍残留新闻图标（点击后仅显示空白面板）。"
+    },
+    "BraveTalkDisabled": {
+      "name": "禁用 Brave Talk 视频通话",
+      "desc": "从新标签页、侧边栏和菜单中隐藏 Brave Talk（私密视频通话）入口。直接访问 talk.brave.com 网站仍可使用。"
+    },
+    "BravePlaylistEnabled": {
+      "name": "禁用 Brave 播放列表（正式版默认关闭）",
+      "desc": "禁用用于在侧边栏保存和播放音视频的播放列表功能。Release 和 Beta 默认关闭（Nightly 默认开启）；此策略可确保其持续保持关闭。"
+    },
+    "BraveWebDiscoveryEnabled": {
+      "name": "禁用 Web 发现项目 (Web Discovery)",
+      "desc": "停止 Brave 将你访问的网页匿名贡献给 Brave Search 搜索引擎索引（Web Discovery Project）。"
+    },
+    "BraveSpeedreaderEnabled": {
+      "name": "禁用极速阅读模式 (Speedreader)",
+      "desc": "禁用无干扰文章精简阅读模式 Speedreader。"
+    },
+    "TorDisabled": {
+      "name": "禁用 Tor 隐私窗口",
+      "desc": "移除“新建使用 Tor 的隐私窗口”功能入口。"
+    },
+    "SyncDisabled": {
+      "name": "禁用 Brave 同步",
+      "desc": "禁用通过同步链跨设备同步书签、历史和设置的 Brave Sync。应用后也会将本设备移出当前同步链，将来解除策略后需使用其他设备的同步码重新加入。"
+    },
+    "EmailAliasesEnabled": {
+      "name": "禁用邮箱别名功能",
+      "desc": "禁用当前 Brave 版本默认开启的一次性邮箱别名生成功能。"
+    },
+    "DefaultBraveAdblockSetting": {
+      "name": "强制启用广告与追踪拦截",
+      "desc": "将 Brave 网络层广告与追踪器拦截锁定为托管策略，无法在设置中或针对单站降低等级。元素隐藏与脚本注入等外观过滤不被锁定，已关闭盾牌的网站不受覆盖。"
+    },
+    "DefaultBraveFingerprintingV2Setting": {
+      "name": "强制启用指纹防护",
+      "desc": "将盾牌指纹防护锁定为托管策略，无法针对单个网站关闭。单 API 兼容性例外（Brave 兼容列表或自定义盾牌项）仍生效，已关闭盾牌的网站不受覆盖。"
+    },
+    "DefaultBraveHttpsUpgradeSetting": {
+      "name": "强制严格 HTTPS 升级",
+      "desc": "始终将连接升级为 HTTPS；不支持 HTTPS 的网站将弹出警告而不会自动回退至 HTTP。在 Brave 已切换为 Chromium HTTPS-First 模式的渠道（Beta、Nightly 及部分 Release）上仅作一次性预设而非强制；配合限制或禁用云端实验可保持强制生效。"
+    },
+    "DefaultBraveReferrersSetting:2": {
+      "name": "限制来源头仅发送主源 (Strict Origin)",
+      "desc": "跨源请求时将 Referer 截断为仅包含主源（Brave 默认行为）并锁定：所有单站例外（包括 Brave 为修复站点内置的兼容例外）将失效。与“允许完整来源头”互斥。"
+    },
+    "DefaultBraveReferrersSetting:1": {
+      "name": "允许完整来源头 (unsafe-url)",
+      "desc": "当网站请求时跨源发送完整的来源 URL。仅作为兼容性应急开关——会削弱隐私保护，所有预设均未启用。与“限制来源头仅发送主源”互斥。"
+    },
+    "DefaultBraveRemember1PStorageSetting": {
+      "name": "关闭标签页时清除第一方存储",
+      "desc": "在关闭某个网站的最后一个标签页时清除其 Cookie 与本地存储——下次访问时网站将不再记住你（及登录状态）。"
+    },
+    "BackgroundModeEnabled": {
+      "name": "禁用关闭后后台运行",
+      "desc": "阻止 Brave 在关闭最后一个窗口后继续驻留后台（通常仅当有扩展申请后台运行时才会发生）。若无此类扩展，此策略仅锁定关闭 brave://settings/system 中的“关闭 Brave 后继续运行后台应用”。"
+    },
+    "HighEfficiencyModeEnabled": {
+      "name": "启用内存节省程序",
+      "desc": "强制开启内存节省程序：自动休眠不活跃的标签页以释放内存，切回时重新加载。"
+    },
+    "HardwareAccelerationModeEnabled:1": {
+      "name": "强制开启硬件加速",
+      "desc": "Brave 默认开启“在可用时使用图形加速”；此策略将其锁定，防止在设置中手动关闭以规避显卡异常。GPU 黑名单或反复崩溃仍可能触发软件渲染回退。重启浏览器后生效。"
+    },
+    "HardwareAccelerationModeEnabled:0": {
+      "name": "禁用硬件加速",
+      "desc": "强制关闭 GPU 硬件加速（与默认相反），会牺牲渲染速度与续航。仅建议在显卡路径存在故障时开启：例如驱动问题导致闪烁花屏、虚拟机/远程桌面无可用 GPU，或共享屏幕时画面损坏。重启浏览器后生效。"
+    },
+    "EnableMediaRouter": {
+      "name": "禁用媒体投屏 (Google Cast)",
+      "desc": "禁用 Google Cast 及其局域网后台设备发现。重启浏览器后生效。首次在此策略下创建的配置文件，即便日后移除策略，投屏仍会保持关闭，需在 brave://settings/extensions 中重新开启媒体路由器并重启。"
+    },
+    "AlwaysOpenPdfExternally": {
+      "name": "始终使用外部程序打开 PDF",
+      "desc": "直接下载 PDF 文件而非使用 Brave 内置 PDF 阅读器预览；下载后需手动打开。网站可以检测到内置阅读器被禁用且指纹保护不会隐藏此特征，可能会增加被指纹识别的风险。"
+    },
+    "TranslateEnabled": {
+      "name": "禁用内置网页翻译",
+      "desc": "禁用内置网页翻译功能及其弹窗提示。"
+    },
+    "SpellcheckEnabled": {
+      "name": "禁用全部拼写检查",
+      "desc": "彻底关闭文本输入框中的拼写检查。与“禁用增强型在线拼写检查”互斥（后者保留本地离线检查，仅移除 Google 在线查询）。"
+    },
+    "SearchSuggestEnabled": {
+      "name": "禁用地址栏搜索建议",
+      "desc": "停止将你在地址栏输入的字符实时发送给搜索引擎以获取联想建议。"
+    },
+    "PrintingEnabled": {
+      "name": "禁用浏览器打印功能",
+      "desc": "完全禁用浏览器打印（含 Ctrl+P 与另存为 PDF）。依赖打印预览的 Brave 功能也会同时失效：包括 Leo 读取 Google Docs/扫描版 PDF，以及截图工具在 PDF 与 Google Docs 上的长截图。"
+    },
+    "DefaultBrowserSettingEnabled": {
+      "name": "禁用默认浏览器提示",
+      "desc": "停止 Brave 询问是否设为默认浏览器，并在 brave://settings 中隐藏“设为默认”按钮。注意：首次运行欢迎页仍可能显示“设为默认”，在此策略开启时点击会导致崩溃，请在该处选择“跳过”。"
+    },
+    "DeveloperToolsAvailability": {
+      "name": "禁用开发者工具 (F12)",
+      "desc": "屏蔽开发者工具（F12）、扩展调试及“查看网页源代码”菜单与快捷键，并关闭扩展开发者模式（禁止加载已解压扩展）。会导致整页截图卡死并使当前窗口截图按钮变灰直至关闭。网页开发者请勿启用。"
+    },
+    "BraveWaybackMachineEnabled": {
+      "name": "禁用 Wayback Machine 网页快照",
+      "desc": "当网页失效或报错（404、408、410、451 及部分 5xx）时，停止 Brave 提示访问 archive.org 存档快照（包括自动弹窗提示）。"
+    }
+  },
+  "ps1_ui": {
+    "window_title": "SlimBrave Neo（中文版）",
+    "rail_subtitle": "策略管理器",
+    "nav_presets": "快捷预设",
+    "nav_all": "全部选项",
+    "nav_dns": "DNS over HTTPS",
+    "search_placeholder": "搜索策略名称、说明或 Key...",
+    "search_title": "搜索结果",
+    "search_empty": "未找到与 \"{0}\" 匹配的策略。",
+    "search_crumb": "SlimBrave Neo  >  搜索  -  找到 {0} 项匹配 \"{1}\"",
+    "all_crumb": "SlimBrave Neo  >  全部选项  -  共 {0} 条策略",
+    "status_ready": "就绪",
+    "status_no_policy": "本机尚未设置任何 Brave 托管策略",
+    "toggle_on": "开",
+    "toggle_off": "关",
+    "preset_policies_suffix": "条策略",
+    "preset_load_btn": "加载",
+    "preset_loaded_status": "已加载“{0}” - 暂存 {1} 条策略。点击“应用设置”后才会写入注册表。",
+    "buttons": {
+      "Export": "导出",
+      "Import": "导入",
+      "Re-sync": "重新同步",
+      "Reset": "重置",
+      "Apply Settings": "应用设置"
+    },
+    "dns": {
+      "mode_title": "DNS over HTTPS 模式",
+      "mode_desc": "选择“不管理”将不写入任何 DNS 策略，完全保留 Brave 原有设置",
+      "tmpl_title": "自定义 DoH 模板 URL",
+      "tmpl_note_optional": "仅在 custom（自定义）和 secure（安全）模式下使用",
+      "tmpl_note_required": "必填 - 未设置模板时，安全 DNS 将无法解析任何域名",
+      "status_mode": "DNS 模式：{0}",
+      "status_tmpl_err": "DoH 模板：{0}"
+    },
+    "dialogs": {
+      "confirm_reset_title": "确认重置",
+      "confirm_reset_body": "确定移除 SlimBrave Neo 管理的所有策略？由组策略或其他工具设置的策略将保持不变。",
+      "unsaved_title": "SlimBrave Neo",
+      "unsaved_body": "当前有尚未应用的更改。确定关闭并放弃更改吗？",
+      "not_elevated_title": "需要管理员权限",
+      "not_elevated_apply": "写入计算机级策略需要管理员权限，请以管理员身份重新启动后再应用。",
+      "not_elevated_reset": "移除计算机级策略需要管理员权限，请以管理员身份重新启动后再重置。",
+      "relaunch_loop_body": "SlimBrave 已尝试提权重启，但新窗口仍未获得管理员权限，为避免死循环已停止。请使用管理员账户运行。",
+      "no_path_title": "无法确定脚本路径",
+      "no_path_body": "请将脚本保存为本地 .ps1 文件后再运行，以便自动提权为管理员。",
+      "relaunch_failed_prefix": "无法以管理员身份重新启动：",
+      "relaunch_failed_suffix": "应用和重置策略需要管理员权限才能写入计算机策略。",
+      "doh_check_title": "请检查 DoH 模板",
+      "doh_check_suffix": "模式“{0}”仅通过 DNS over HTTPS 解析——若无有效解析器，所有域名都将无法访问，且因受机器策略锁定而无法在 brave://settings 中修改。",
+      "json_filter": "JSON 配置文件 (*.json)|*.json"
+    },
+    "status": {
+      "synced_fmt": "已从注册表读取策略 - 共发现 {0} 项配置",
+      "exported_fmt": "已导出 {0} 条策略",
+      "export_failed_fmt": "导出失败 - {0}",
+      "import_failed_fmt": "导入失败 - {0}",
+      "imported_from_fmt": "已从 {0} 导入配置",
+      "applied_fmt": "已应用 {0} 条策略。请重启 Brave 并在 brave://policy 中核验。",
+      "apply_failed_fmt": "写入失败：{0}。已成功应用 {1} 条策略。",
+      "reset_done": "已重置。仅移除了 SlimBrave Neo 管理的策略键。",
+      "repair_skipped": "请完全关闭 Brave 后再次运行以清理残留配置——Brave 正在运行，会在下次保存时覆盖修复结果。"
+    }
+  },
+  "py_ui": {
+    "title": " SlimBrave Neo - Brave 浏览器精简与隐私强化工具 ",
+    "title_with_method": " SlimBrave Neo - Brave 浏览器精简与隐私强化工具 [{0}] ",
+    "hint_default": " [空格/回车] 切换  [/] 搜索  [D] 说明面板  [Q] 退出  [?] 帮助 ",
+    "hint_short": " [空格/回车] 切换  [/] 搜索  [Q] 退出  [?] 帮助 ",
+    "hint_filter": " 筛选：{0}   匹配 {1} 项   [Esc] 清除 ",
+    "frame_settings": " 策略设置 ",
+    "frame_desc": " 说明 ",
+    "dns_section_header": "DNS Over HTTPS",
+    "dns_template_label": "模板",
+    "dns_template_inactive": "    模板：（选择 custom 或 secure 模式后可编辑）",
+    "inert_suffix": "(Origin 已内置移除)",
+    "origin_note_only": "检测到 Brave Origin：策略正常生效；Origin 编译时已移除的功能行将置灰不可用。",
+    "origin_note_beside": "检测到 Origin 与常规 Brave 共存：共享同一策略文件，所有策略行均保持可用。",
+    "profile_still_installed": "已重置，但配置描述文件仍已安装：请前往 系统设置 > 通用 > 设备管理 中手动移除。",
+    "profile_still_applies": " SlimBrave 配置描述文件仍已安装并持续生效。",
+    "header_counter": "{0}/{1} 已启用",
+    "header_origin_only": "{0} 项由 Origin 内置移除",
+    "header_desc_tpl": "{0}：共 {1} 项设置，已启用 {2} 项{3}。左方向键折叠，右方向键展开，空格切换，按 c 全部折叠/展开。",
+    "header_desc_origin_part": "，{0} 项已由 Origin 内置移除",
+    "header_desc_dns": "{0}：配置 DoH 解析器模式及自定义模板 URL。",
+    "inert_desc_prefix": "Brave Origin 内置移除：该功能已从程序二进制中剔除，策略无需也无法切换，本行仅供参考。",
+    "buttons": {
+      "Import": "导入",
+      "Export": "导出",
+      "Apply": "应用",
+      "Reset": "重置",
+      "Quit": "退出"
+    },
+    "button_desc_linux": {
+      "Import": "从 Presets/ 预设或此前导出的 JSON 文件加载选项到列表。点击“应用”前不会写入系统。",
+      "Export": "将当前勾选导出为 JSON 文件，可跨 Windows / Linux / macOS 脚本导入。sudo 下会以原用户身份写入。",
+      "Apply": "将选中的策略写入 Brave 启动时读取的系统策略目录。运行中的 Brave 重启后生效。",
+      "Reset": "移除本工具写入的策略文件，使 Brave 恢复默认行为（操作前会再次确认）。",
+      "Quit": "不写入任何更改并直接退出。"
+    },
+    "button_desc_mac": {
+      "Import": "从 Presets/ 预设或此前导出的 JSON 文件加载选项到列表。点击“应用”前不会写入系统。",
+      "Export": "将当前勾选导出为 JSON 文件，可跨 Windows / Linux / macOS 脚本导入。sudo 下会以原用户身份写入。",
+      "Apply": "先确认是否持久化（以及多渠道时的目标渠道），随后写入 Brave 启动读取的托管策略。开启持久化将交由“系统设置”完成描述文件安装。",
+      "Reset": "移除本工具写入的策略，使 Brave 恢复默认行为（操作前会再次确认）。",
+      "Quit": "不写入任何更改并直接退出。"
+    },
+    "dns_desc": {
+      "mode": "secure 与 custom 会将全部查询发往下方模板且不回退，模板错误将导致无法解析。automatic 优先使用 DoH，否则回退普通 DNS。off 完全禁用 DoH。不管理则保留 Brave 自身设置。",
+      "template": "DNS-over-HTTPS 解析器模板地址，例如 https://dns.example/dns-query。secure 与 custom 模式必填；automatic 模式下填写也会生效。"
+    },
+    "persist_desc": {
+      "off": "仅写入 plist；macOS 13+ 重启后系统可能会清除未受描述文件保护的值",
+      "on": "安装 Apple 配置描述文件；重启后持久有效（需在系统设置点击一次安装）"
+    },
+    "help_lines": [
+      " SlimBrave Neo - 快捷键说明",
+      "",
+      "   ↑ / ↓                 移动光标",
+      "   PageUp / PageDown     翻页滚动",
+      "   Home / End            跳转到首行 / 末行",
+      "   Space / Enter         切换开关；折叠或展开分类",
+      "   ← / →                 切换下拉选项；折叠 / 展开分类",
+      "   c                     一键折叠或展开全部分类",
+      "   /                     按名称、英文原名或策略 Key 实时筛选",
+      "   d                     显示或隐藏底部说明面板",
+      "   Esc                   清除筛选；无筛选时退出",
+      "   ?                     显示本帮助",
+      "   Tab                   在列表与底部按钮栏之间切换",
+      "   Q                     退出",
+      "",
+      "   按任意键关闭此窗口。"
+    ],
+    "prompts": {
+      "filter": "筛选（支持中英文/策略Key，Esc 清除）",
+      "import_path": "导入路径（Esc 取消）",
+      "export_path": "导出路径（Esc 取消）",
+      "reset_confirm": "确认重置所有由本工具管理的设置？按 Enter 确认，按其他任意键取消。",
+      "apply_cancelled": "已取消应用。",
+      "reset_cancelled": "已取消重置。",
+      "import_cancelled": "已取消导入。",
+      "export_cancelled": "已取消导出。",
+      "doh_required": "secure / custom 模式必须填写有效的 DoH 模板 URL。",
+      "term_too_short": "终端窗口高度不足，无法显示说明面板。"
+    }
+  }
+}
