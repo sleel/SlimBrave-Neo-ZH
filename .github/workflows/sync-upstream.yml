@@ -1,0 +1,90 @@
+name: Sync Upstream SlimBrave-Neo
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      upstream_ref:
+        description: "上游分支或 Tag（默认 main）"
+        required: false
+        default: "main"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch upstream & build ZH scripts
+        id: build
+        run: |
+          REF="${{ github.event.inputs.upstream_ref || 'main' }}"
+          rc=0
+          python3 build_zh.py --fetch --ref "$REF" --out-dir dist --check --emit-missing missing-policies.json || rc=$?
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
+            echo "Build failed with fatal exit code $rc" >&2
+            exit "$rc"
+          fi
+          echo "has_missing=$([ "$rc" -eq 2 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Run localization verification tests
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Commit updated dist/
+        run: |
+          if [ -n "$(git status --porcelain dist/)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add dist/
+            git commit -m "chore(sync): rebuild ZH scripts from upstream SlimBrave-Neo"
+            git push
+          fi
+
+      - name: Report newly added upstream policies
+        if: steps.build.outputs.has_missing == 'true' && hashFiles('missing-policies.json') != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const missing = fs.readFileSync('missing-policies.json', 'utf8');
+            const title = '上游 SlimBrave-Neo 新增未翻译策略条目';
+            const body = [
+              '自动同步检测到上游新增以下策略（汉化产物已正常构建并回退显示英文原文）：',
+              '',
+              '```json',
+              missing,
+              '```',
+              '',
+              '补充翻译至 `locales/zh-CN.json` 后运行 `python build_zh.py --fetch` 即可。'
+            ].join('\n');
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 50
+            });
+            const existing = issues.find(i => i.title === title);
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body
+              });
+            }
