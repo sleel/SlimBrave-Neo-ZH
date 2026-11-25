@@ -1,4 +1,4 @@
-# SlimBrave Neo 中文版（抗上游更新汉化）
+# SlimBrave Neo 中文版
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Builder-Python_3.9+_Stdlib_Only-3776AB)](build_zh.py)
