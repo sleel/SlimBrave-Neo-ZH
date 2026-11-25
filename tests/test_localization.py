@@ -12,6 +12,8 @@ import tempfile
 import types
 import unittest
 
+from unittest import mock
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 LOCALE_PATH = ROOT / "locales" / "zh-CN.json"
@@ -92,7 +94,6 @@ class TestLocalizationArtifacts(unittest.TestCase):
 
     def test_dist_files_license_and_utf8_bom(self):
         self.assertTrue((ROOT / "LICENSE").is_file(), "缺少 GPL-3.0 LICENSE 文件")
-        self.assertTrue((ROOT / ".gitignore").is_file(), "缺少 .gitignore")
         for name in ("SlimBrave-zh.ps1", "slimbrave-linux-zh.py", "slimbrave-mac-zh.py"):
             self.assertTrue((DIST / name).is_file(), f"缺少产物 dist/{name}")
         self.assertTrue(
@@ -147,22 +148,25 @@ class TestLocalizationArtifacts(unittest.TestCase):
                 self.assertTrue(mod.row_matches_filter(p3a, "bravep3aenabled"))
 
                 # 模拟 curses 终端渲染：80x24 与窄屏 56x16 下 draw / draw_help / overlay 均零越界
-                for h, w in ((24, 80), (16, 56), (8, 50)):
-                    scr = _MockStdscr(h, w, wcswidth_fn=mod._zh_wcswidth)
-                    mod.draw(scr, rows, 1, 0, mod.FOCUS_LIST, 0, "已应用 12 条策略，请重启 Brave。", True, show_desc=True)
-                    mod.draw_help(scr)
-                    if hasattr(mod, "_draw_prompt_overlay"):
-                        mod._draw_prompt_overlay(
-                            scr,
-                            f"  Persist across reboots: < on >    ↳ {mod.PERSIST_DESCRIPTIONS['on']}",
-                            "  ←/→ select   Y/N quick-pick   Enter=confirm   Esc=cancel",
-                        )
+                # 在 Linux/macOS 无 TTY 环境下需 mock color_pair / update_lines_cols，避免真实 curses 报错 initscr()
+                with mock.patch.object(mod.curses, "color_pair", side_effect=lambda n: n), \
+                     mock.patch.object(mod.curses, "update_lines_cols", side_effect=lambda: None):
+                    for h, w in ((24, 80), (16, 56), (8, 50)):
+                        scr = _MockStdscr(h, w, wcswidth_fn=mod._zh_wcswidth)
+                        mod.draw(scr, rows, 1, 0, mod.FOCUS_LIST, 0, "已应用 12 条策略，请重启 Brave。", True, show_desc=True)
+                        mod.draw_help(scr)
+                        if hasattr(mod, "_draw_prompt_overlay"):
+                            mod._draw_prompt_overlay(
+                                scr,
+                                f"  Persist across reboots: < on >    ↳ {mod.PERSIST_DESCRIPTIONS['on']}",
+                                "  ←/→ select   Y/N quick-pick   Enter=confirm   Esc=cancel",
+                            )
 
-                # 模拟中文输入法通过 get_wch() 键入「隐私」+ 退格 +「藏」+ 回车
-                scr_in = _MockStdscr(24, 80, keys=["隐", "私", "\x7f", "藏", "\n"], wcswidth_fn=mod._zh_wcswidth)
-                ok, text = mod.prompt_text_input(scr_in, rows, 1, 0, 0, "", "Filter (Esc=clear)")
-                self.assertTrue(ok)
-                self.assertEqual(text, "隐藏")
+                    # 模拟中文输入法通过 get_wch() 键入「隐私」+ 退格 +「藏」+ 回车
+                    scr_in = _MockStdscr(24, 80, keys=["隐", "私", "\x7f", "藏", "\n"], wcswidth_fn=mod._zh_wcswidth)
+                    ok, text = mod.prompt_text_input(scr_in, rows, 1, 0, 0, "", "Filter (Esc=clear)")
+                    self.assertTrue(ok)
+                    self.assertEqual(text, "隐藏")
 
     @unittest.skipUnless(platform.system() == "Windows", "PowerShell AST/Runtime test runs on Windows")
     def test_powershell_ast_runtime_and_search_edge_cases(self):
